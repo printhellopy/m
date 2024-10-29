@@ -1,0 +1,45 @@
+import sqlite3
+# Step 1: Connect to SQLite database (or create it if it doesn't exist)
+conn = sqlite3.connect('students.db')
+cursor = conn.cursor()
+# Step 2: Create the students table
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS students (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+grade INTEGER NOT NULL)''')
+print(“table is created successfully’)
+# Step 3: Insert two records into the students table
+cursor.execute("INSERT INTO students (name, grade) VALUES ('Alice', 90)")
+cursor.execute("INSERT INTO students (name, grade) VALUES ('Bob', 85)")
+print(“2 records are inserted into table”)
+# Commit the changes
+conn.commit()
+# Step 4: Retrieve and display all records
+cursor.execute("SELECT * FROM students")
+print("Students before update:")
+rows = cursor.fetchall()
+for row in rows:
+print(row)
+# Step 5: Update the grade of a student (e.g., update Bob's grade to 95)
+cursor.execute("UPDATE students SET grade = 95 WHERE name = 'Bob'")
+# Commit the changes
+conn.commit()
+# Step 6: Retrieve and display the updated records
+cursor.execute("SELECT * FROM students")
+print("\nStudents after update:")
+rows = cursor.fetchall()
+for row in rows:
+print(row)
+# Step 7: Delete a student record (e.g., delete Alice)
+cursor.execute("DELETE FROM students WHERE name = 'Alice'")
+# Commit the changes
+conn.commit()
+# Step 8: Retrieve and display the records after deletion
+cursor.execute("SELECT * FROM students")
+print("\nStudents after deletion:")
+rows = cursor.fetchall()
+for row in rows:
+print(row)
+# Step 9: Close the database connection
+conn.close()

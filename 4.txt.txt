@@ -1,0 +1,22 @@
+import threading
+# Function to count lines in a given file
+def count_lines(file_name):
+try:
+with open(file_name, 'r') as file:
+lines = file.readlines()
+print(f"{file_name} contains {len(lines)} lines. \n")
+except FileNotFoundError:
+print(f"File {file_name} not found!")
+# File names
+file1 = 'file1.txt'
+file2 = 'file2.txt'
+# Step 1: Create two threads, one for each file
+thread1 = threading.Thread(target=count_lines, args=(file1,))
+thread2 = threading.Thread(target=count_lines, args=(file2,))
+# Step 2: Start both threads
+thread1.start()
+thread2.start()
+# Step 3: Wait for both threads to complete
+thread1.join()
+thread2.join()
+print("Line counting completed for both files.")
